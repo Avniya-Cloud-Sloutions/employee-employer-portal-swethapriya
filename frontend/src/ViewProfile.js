@@ -93,7 +93,7 @@ export default function ViewProfile() {
           }}
         >
           <p>
-            <strong>Professional Title:</strong> {profile.ProfessionalTitle || "—"}
+            <strong>Professional Title:</strong> {profile.professionalTitle || "—"}
           </p>
           <p>
             <strong>Experience:</strong> {profile.experience || 0} yr
@@ -108,7 +108,7 @@ export default function ViewProfile() {
             <strong>Phone:</strong> {profile.phone}
           </p>
           <p>
-            <strong>Alternate Phone:</strong> {profile.AlternatePhone || "—"}
+            <strong>Alternate Phone:</strong> {profile.alternatePhone || "—"}
           </p>
           <p>
             <strong>Qualification:</strong> {profile.qualification || "—"}
@@ -223,27 +223,7 @@ export default function ViewProfile() {
 
 
 
-        <div style={{ textAlign: "center", marginTop: 40 }}>
-          <button
-            onClick={() => navigate("/employer-dashboard")}
-            style={{
-              backgroundColor: "#e53935",
-              color: "#fff",
-              padding: "12px 28px",
-              border: "none",
-              borderRadius: 8,
-              fontSize: "1rem",
-              cursor: "pointer",
-              fontWeight: 700,
-              boxShadow: "0 3px 10px rgba(229,57,53,0.4)",
-              transition: "background-color 0.3s ease",
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#b71c1c")}
-            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#e53935")}
-          >
-            🔙 Back to Dashboard
-          </button>
-        </div>
+   
       </div>
     </div>
   );

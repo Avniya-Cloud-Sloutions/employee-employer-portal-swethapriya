@@ -1,5 +1,7 @@
+
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import StartHiring from './StartHiring';
 
 const Welcome = () => {
   const navigate = useNavigate();
@@ -12,6 +14,10 @@ const Welcome = () => {
 
   const scrollToFooter = () => {
     footerRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  
+const StartHiring = () => {
+    navigate('/start-hiring'); // ✅ Replace with your actual route if different
   };
 
   return (
@@ -45,51 +51,150 @@ const Welcome = () => {
           </h1>
         </div>
 
-        <nav>
-          <button
-            onClick={scrollToAbout}
-            style={{
-              marginRight: '1rem',
-              backgroundColor: '#ff6b6b',
-              border: 'none',
-              borderRadius: '20px',
-              padding: '0.5rem 1rem',
-              color: '#fff',
-              cursor: 'pointer',
-            }}
-          >
-            About
-          </button>
-          <button
-            onClick={() => navigate('/login')}
-            style={{
-              backgroundColor: '#4ecdc4',
-              border: 'none',
-              borderRadius: '20px',
-              padding: '0.5rem 1rem',
-              color: '#fff',
-              cursor: 'pointer',
-            }}
-          >
-            Join
-          </button>
+       
 
-               <button
-            onClick={() => navigate('/allprofiles')}
-            style={{
-              marginLeft: '1rem',
-              backgroundColor: '#ff6b6b',
-              border: 'none',
-              borderRadius: '20px',
-              padding: '0.5rem 1rem',
-              color: '#fff',
-              cursor: 'pointer',
-            }}
-          >
-            All Profiles
-          </button>
 
-        </nav>
+   <nav
+  style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '1rem',
+  }}
+>
+  
+
+
+{/* About - White Button with Blue Text */}
+<button
+  onClick={scrollToAbout}
+  style={{
+    backgroundColor: '#fff',
+    border: '2px solid #3498db',
+    borderRadius: '20px',
+    padding: '0.5rem 1rem',
+    color: '#3498db',
+    cursor: 'pointer',
+    minWidth: '120px',
+    fontWeight: 'bold',
+    transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s',
+  }}
+  onMouseEnter={(e) => {
+    e.target.style.transform = 'scale(1.05)';
+    e.target.style.boxShadow = '0 6px 16px rgba(52, 152, 219, 0.4)';
+    e.target.style.color = '#2980b9';
+    e.target.style.borderColor = '#2980b9';
+  }}
+  onMouseLeave={(e) => {
+    e.target.style.transform = 'scale(1)';
+    e.target.style.boxShadow = 'none';
+    e.target.style.color = '#3498db';
+    e.target.style.borderColor = '#3498db';
+  }}
+>
+  About
+</button>
+
+{/* Join - White Button with Blue Text */}
+<button
+  onClick={() => navigate('/login')}
+  style={{
+    backgroundColor: '#fff',
+    border: '2px solid #3498db',
+    borderRadius: '20px',
+    padding: '0.5rem 1rem',
+    color: '#3498db',
+    cursor: 'pointer',
+    minWidth: '120px',
+    fontWeight: 'bold',
+    transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s',
+  }}
+  onMouseEnter={(e) => {
+    e.target.style.transform = 'scale(1.05)';
+    e.target.style.boxShadow = '0 6px 16px rgba(52, 152, 219, 0.4)';
+    e.target.style.color = '#2980b9';
+    e.target.style.borderColor = '#2980b9';
+  }}
+  onMouseLeave={(e) => {
+    e.target.style.transform = 'scale(1)';
+    e.target.style.boxShadow = 'none';
+    e.target.style.color = '#3498db';
+    e.target.style.borderColor = '#3498db';
+  }}
+>
+  Join
+</button>
+ {/* Hire a Talent Button - White Background, Blue Text */}
+    <button
+      onClick={() => navigate('/allprofiles')}
+      style={{
+        backgroundColor: '#fff', // white background
+        border: '2px solid #3498db', // blue border
+        borderRadius: '20px',
+        padding: '0.5rem 1rem',
+        color: '#3498db', // blue text
+        cursor: 'pointer',
+        fontWeight: 'bold',
+        fontSize: '1.0rem',
+        transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s',
+        minWidth: '180px', // makes buttons equal width on mobile
+        textAlign: 'center',
+      }}
+      onMouseEnter={(e) => {
+        e.target.style.transform = 'scale(1.05)';
+        e.target.style.boxShadow = '0 6px 16px rgba(52, 152, 219, 0.4)';
+        e.target.style.color = '#2980b9';
+        e.target.style.borderColor = '#2980b9';
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.transform = 'scale(1)';
+        e.target.style.boxShadow = 'none';
+        e.target.style.color = '#3498db';
+        e.target.style.borderColor = '#3498db';
+      }}
+    >
+      All Profiles
+    </button>
+
+{/* Post a Project - Purple-Blue Gradient Button */}
+<button
+  onClick={() => navigate('/post-project')}
+  style={{
+    backgroundImage: 'linear-gradient(90deg, #8e44ad, #3498db)', // purple to blue gradient
+    border: 'none',
+    borderRadius: '20px',
+    padding: '0.7rem 1.5rem',
+    color: '#fff',
+    cursor: 'pointer',
+    minWidth: '140px',
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    transition: 'transform 0.2s, box-shadow 0.2s, background-image 0.2s',
+  }}
+  onMouseEnter={(e) => {
+    e.target.style.transform = 'scale(1.05)';
+    e.target.style.boxShadow = '0 6px 16px rgba(142, 68, 173, 0.4)';
+    e.target.style.backgroundImage = 'linear-gradient(90deg, #6c3483, #2980b9)';
+  }}
+  onMouseLeave={(e) => {
+    e.target.style.transform = 'scale(1)';
+    e.target.style.boxShadow = 'none';
+    e.target.style.backgroundImage = 'linear-gradient(90deg, #8e44ad, #3498db)';
+  }}
+>
+ Post a Project
+</button>
+
+</nav>
+
+
+
+
+
+
+
       </header>
 
       {/* Welcome Section */}
@@ -110,23 +215,39 @@ const Welcome = () => {
         <p style={{ fontSize: '1.2rem', marginBottom: '2rem', maxWidth: '600px' }}>
           The Bridge Between Employers and Employees
         </p>
-     <button
-    onClick={scrollToFooter}
-  style={{
-    backgroundColor: '#ff6b6b',
-    color: '#fff',
-    padding: '1rem 2rem',
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    borderRadius: '10px',
-    border: 'none',
-    cursor: 'pointer',
-    marginBottom: '3rem',
-  }}
->
-  Get Started
-</button>
   
+
+
+    <button
+      onClick={StartHiring}
+      style={{
+        backgroundColor: '#fff',
+        border: '2px solid #3498db',
+        borderRadius: '20px',
+        padding: '1rem 2rem',
+        color: '#3498db',
+        cursor: 'pointer',
+        fontWeight: 'bold',
+        fontSize: '1.2rem',
+        marginBottom: '3rem',
+        transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s',
+      }}
+      onMouseEnter={(e) => {
+        e.target.style.transform = 'scale(1.05)';
+        e.target.style.boxShadow = '0 6px 16px rgba(52, 152, 219, 0.4)';
+        e.target.style.color = '#2980b9';
+        e.target.style.borderColor = '#2980b9';
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.transform = 'scale(1)';
+        e.target.style.boxShadow = 'none';
+        e.target.style.color = '#3498db';
+        e.target.style.borderColor = '#3498db';
+      }}
+    >
+      Start Hiring
+    </button>
+
         {/* Image Highlights */}
         <div
           style={{

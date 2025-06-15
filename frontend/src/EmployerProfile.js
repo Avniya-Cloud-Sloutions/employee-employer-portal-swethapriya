@@ -158,7 +158,9 @@ const EmployerProfile = () => {
           <button style={styles.navButton} onClick={() => navigate("/employer-profile")}>
             Add Another Profile
           </button>
-
+           <button style={styles.navButton} onClick={() => navigate("/employer-dashboard")}>
+            View All Profiles
+          </button>
           <button style={styles.navButton} onClick={handleLogout}>
             Logout
           </button>

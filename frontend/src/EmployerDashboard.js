@@ -5,7 +5,6 @@ export default function EmployerDashboard() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // filters
   const [searchName, setSearchName] = useState("");
   const [searchCity, setSearchCity] = useState("");
   const [searchTitle, setSearchTitle] = useState("");
@@ -13,11 +12,9 @@ export default function EmployerDashboard() {
   const [searchPhone, setSearchPhone] = useState("");
   const [searchExperience, setSearchExperience] = useState("");
 
-  // contact-modal
   const [showModal, setShowModal] = useState(false);
   const [contactProfile, setContactProfile] = useState(null);
 
-  // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const profilesPerPage = 8;
 
@@ -100,7 +97,6 @@ export default function EmployerDashboard() {
         flexDirection: "column",
       }}
     >
-      {/* Header */}
       <header
         style={{
           display: "flex",
@@ -121,19 +117,26 @@ export default function EmployerDashboard() {
           </h1>
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
-          <button
-            style={blueButtonStyle}
-            onClick={() => navigate("/employer-profile")}
-          >
+          <button style={blueButtonStyle} onClick={() => navigate("/employer-profile")}>
             Add Another Profile
           </button>
+          <button
+  style={{
+    ...blueButtonStyle,
+    backgroundColor: "#4CAF50", // greenish tone for difference
+     padding: "10px 16px",
+    
+  }}
+  onClick={() => navigate("/allprojects")}
+>
+  View All Projects
+</button>
           <button style={redButtonStyle} onClick={handleLogout}>
             Logout
-          </button>
+          </button>   
         </div>
       </header>
 
-      {/* Filters */}
       <div
         style={{
           display: "grid",
@@ -144,15 +147,46 @@ export default function EmployerDashboard() {
           color: "#000",
         }}
       >
-        <input placeholder="Search by Name" value={searchName} onChange={(e) => setSearchName(e.target.value)} style={inputStyle} />
-        <input placeholder="Search by City" value={searchCity} onChange={(e) => setSearchCity(e.target.value)} style={inputStyle} />
-        <input placeholder="Search by Title" value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} style={inputStyle} />
-        <input placeholder="Search by Email" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} style={inputStyle} />
-        <input placeholder="Search by Phone" value={searchPhone} onChange={(e) => setSearchPhone(e.target.value)} style={inputStyle} />
-        <input placeholder="Search by Experience" value={searchExperience} onChange={(e) => setSearchExperience(e.target.value)} style={inputStyle} type="number" min="0" />
+        <input
+          placeholder="Search by Name"
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          placeholder="Search by City"
+          value={searchCity}
+          onChange={(e) => setSearchCity(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          placeholder="Search by Title"
+          value={searchTitle}
+          onChange={(e) => setSearchTitle(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          placeholder="Search by Email"
+          value={searchEmail}
+          onChange={(e) => setSearchEmail(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          placeholder="Search by Phone"
+          value={searchPhone}
+          onChange={(e) => setSearchPhone(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          placeholder="Search by Experience"
+          value={searchExperience}
+          onChange={(e) => setSearchExperience(e.target.value)}
+          style={inputStyle}
+          type="number"
+          min="0"
+        />
       </div>
 
-      {/* Content */}
       {loading ? (
         <p style={centerTextStyle}>Loading…</p>
       ) : paginatedProfiles.length === 0 ? (
@@ -182,32 +216,79 @@ export default function EmployerDashboard() {
                   minWidth: 220,
                 }}
               >
-                <h3 style={{ margin: "0 0 6px" }}>{p.fullName}</h3>
-                <p><strong>Title:</strong> {p.ProfessionalTitle || "—"}</p>
-                <p><strong>Experience:</strong> {p.experience || 0} yr</p>
-                <p><strong>City:</strong> {p.city || "—"}</p>
-                <p><strong>Email:</strong> {p.email}</p>
-                <p><strong>Phone:</strong> {p.phone}</p>
+                {/* Profile photo centered */}
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  {p.profilePhoto && (
+                    <img
+                      src={`http://localhost:5000/uploads/photos/${p.profilePhoto}`}
+                      alt="Profile"
+                      style={{
+                        width: 90,
+                        height: 90,
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        marginBottom: "8px",
+                      }}
+                    />
+                  )}
+                </div>
+
+               
+
+
+
+
+              
+<h3 style={{ margin: "0 0 6px" }}>{p.fullName}</h3>
+<p style={{ margin: "2px 0" }}><strong>Title:</strong> {p.professionalTitle }</p>
+<p style={{ margin: "2px 0" }}><strong>Experience:</strong> {p.experience || 0} yr</p>
+<p style={{ margin: "2px 0" }}><strong>City:</strong> {p.city || "—"}</p>
+<p style={{ margin: "2px 0" }}><strong> Qualification:</strong> {p.qualification}</p>
+
+
+
                 {p.resume && (
                   <a
                     href={`http://localhost:5000/uploads/resumes/${p.resume}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ textDecoration: "none", color: "#2575fc", fontWeight: "bold" }}
+                    style={{
+                      textDecoration: "none",
+                      color: "#2575fc",
+                      fontWeight: "bold",
+                    }}
                   >
                     📄 Download Resume
                   </a>
                 )}
-                <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", marginTop: "10px", flexWrap: "wrap" }}>
-                  <button onClick={() => navigate(`/view-profile/${p.id}`)} style={blueButtonStyle}>👁 View</button>
-                  <button onClick={() => handleDelete(p.id)} style={redButtonStyle}>🗑 Delete</button>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: "4px",
+                    marginTop: "8px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <button
+                    onClick={() => navigate(`/view-profile/${p.id}`)}
+                    style={darkBlueButtonStyle}
+                  >
+                    👁 View
+                  </button>
+                  <button
+                    onClick={() => handleDelete(p.id)}
+                    style={crimsonButtonStyle}
+                  >
+                    🗑 Delete
+                  </button>
                   <button
                     onClick={() => {
                       const shareUrl = `${window.location.origin}/view-profile/${p.id}`;
                       navigator.clipboard.writeText(shareUrl);
                       alert("Profile URL copied to clipboard!");
                     }}
-                    style={greenButtonStyle}
+                    style={orangeButtonStyle}
                   >
                     🔗 Share
                   </button>
@@ -216,7 +297,7 @@ export default function EmployerDashboard() {
                       setContactProfile(p);
                       setShowModal(true);
                     }}
-                    style={yellowButtonStyle}
+                    style={purpleButtonStyle}
                   >
                     📞 Contact
                   </button>
@@ -225,52 +306,52 @@ export default function EmployerDashboard() {
             ))}
           </div>
 
-
-
-
-{/* Pagination Controls */}
-<div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", gap: "10px", margin: "1rem auto" }}>
-  <button
-    onClick={() => goToPage(currentPage - 1)}
-    disabled={currentPage === 1}
-    style={{ ...blueButtonStyle, opacity: currentPage === 1 ? 0.5 : 1 }}
-  >
-    ◀ Prev
-  </button>
-
-  {[...Array(totalPages)].map((_, i) => {
-    const pageNum = i + 1;
-    return (
-      <button
-        key={pageNum}
-        onClick={() => goToPage(pageNum)}
-        style={{
-          ...blueButtonStyle,
-          backgroundColor: pageNum === currentPage ? "#fff" : "#2575fc",
-          color: pageNum === currentPage ? "#2575fc" : "#fff",
-          border: "2px solid #2575fc",
-          minWidth: 36,
-        }}
-      >
-        {pageNum}
-      </button>
-    );
-  })}
-
-  <button
-    onClick={() => goToPage(currentPage + 1)}
-    disabled={currentPage === totalPages}
-    style={{ ...blueButtonStyle, opacity: currentPage === totalPages ? 0.5 : 1 }}
-  >
-    Next ▶
-  </button>
-</div>
-
-
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "10px",
+              margin: "1rem auto",
+            }}
+          >
+            <button
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{ ...blueButtonStyle, opacity: currentPage === 1 ? 0.5 : 1 }}
+            >
+              ◀ Prev
+            </button>
+            {[...Array(totalPages)].map((_, i) => {
+              const pageNum = i + 1;
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => goToPage(pageNum)}
+                  style={{
+                    ...blueButtonStyle,
+                    backgroundColor: pageNum === currentPage ? "#fff" : "#2575fc",
+                    color: pageNum === currentPage ? "#2575fc" : "#fff",
+                    border: "2px solid #2575fc",
+                    minWidth: 36,
+                  }}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+            <button
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              style={{ ...blueButtonStyle, opacity: currentPage === totalPages ? 0.5 : 1 }}
+            >
+              Next ▶
+            </button>
+          </div>
         </>
       )}
 
-      {/* Contact Modal */}
       {showModal && contactProfile && (
         <div
           style={{
@@ -299,78 +380,104 @@ export default function EmployerDashboard() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              onClick={() => setShowModal(false)}
-              style={{
-                position: "absolute",
-                top: 10,
-                right: 10,
-                background: "none",
-                border: "none",
-                fontSize: "1.5rem",
-                cursor: "pointer",
-                color: "#222",
-              }}
-              aria-label="Close Contact Modal"
-            >
-              &times;
-            </button>
+           
             <h2>Contact {contactProfile.fullName}</h2>
             <p>
               <strong>Email:</strong>{" "}
-              <a href={`mailto:${contactProfile.email}`}>
-                {contactProfile.email}
-              </a>
+              <a href={`mailto:${contactProfile.email}`}>{contactProfile.email}</a>
             </p>
-            <p><strong>Alternate Phone:</strong> {contactProfile.AlternatePhone}</p>
-            <div style={{ display: "flex", gap: "10px", marginTop: "1rem", flexWrap: "wrap" }}>
-              <a
-                href={`https://wa.me/?text=${encodeURIComponent(`Check out this profile: ${window.location.origin}/view-profile/${contactProfile.id}`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  backgroundColor: "#25D366",
-                  color: "white",
-                  padding: "10px 15px",
-                  borderRadius: "8px",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                  flexGrow: 1,
-                  textAlign: "center",
-                }}
-              >
-                WhatsApp
-              </a>
-              <a
-                href={`mailto:${contactProfile.email}`}
-                style={{
-                  backgroundColor: "#0072C6",
-                  color: "white",
-                  padding: "10px 15px",
-                  borderRadius: "8px",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                  flexGrow: 1,
-                  textAlign: "center",
-                }}
-              >
-                Email
-              </a>
-              <a
-                href={`tel:${contactProfile.phone}`}
-                style={{
-                  backgroundColor: "#34B7F1",
-                  color: "white",
-                  padding: "10px 15px",
-                  borderRadius: "8px",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                  flexGrow: 1,
-                  textAlign: "center",
-                }}
-              >
-                Call
-              </a>
+            <p>
+              <strong>Alternate Phone:</strong> {contactProfile.alternatePhone}
+            </p>
+            <p>
+              <strong>Phone:</strong> {contactProfile.phone}
+            </p>
+
+          
+          
+
+
+
+
+
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                marginTop: "1rem",
+                flexWrap: "wrap",
+              }}
+            >
+             
+
+
+
+  {/* Container wrapping Close and WhatsApp side by side */}
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    marginTop: "1.5rem",
+    flexWrap: "wrap",
+  }}
+>
+  <button
+    onClick={() => setShowModal(false)}
+    style={{
+      backgroundColor: "#2575fc",
+      color: "#fff",
+      border: "none",
+      padding: "10px 20px",
+      borderRadius: "8px",
+      cursor: "pointer",
+      fontWeight: "bold",
+      fontSize: "1rem",
+      flex: 1,               // Take equal available space
+      minWidth: "120px",
+    }}
+  >
+    Close
+  </button>
+
+  <a
+    href={`https://wa.me/?text=${encodeURIComponent(
+      `Check out this profile: ${window.location.origin}/view-profile/${contactProfile.id}`
+    )}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "10px",
+      backgroundColor: "#25D366",
+      color: "white",
+      padding: "10px 20px",
+      borderRadius: "8px",
+      fontSize: "1rem",
+      fontWeight: "bold",
+      textDecoration: "none",
+      boxShadow: "0 3px 10px rgba(37, 211, 102, 0.4)",
+      flex: 1,               // Take equal available space
+      minWidth: "120px",
+      justifyContent: "center",
+    }}
+    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#128C7E")}
+    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#25D366")}
+  >
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+      alt="WhatsApp"
+      style={{ width: 24, height: 24 }}
+    />
+    WhatsApp
+  </a>
+</div>
+
+
+
+
+
+              
             </div>
           </div>
         </div>
@@ -379,7 +486,8 @@ export default function EmployerDashboard() {
   );
 }
 
-// Common inline styles
+// 🔘 Style Definitions
+
 const inputStyle = {
   padding: "10px",
   borderRadius: "8px",
@@ -419,26 +527,46 @@ const redButtonStyle = {
   flexGrow: 1,
 };
 
-const greenButtonStyle = {
-  backgroundColor: "#2a9d8f",
+const darkBlueButtonStyle = {
+  backgroundColor: "#1f3b77",
   color: "#fff",
   border: "none",
   padding: "10px 16px",
   borderRadius: 8,
   cursor: "pointer",
   fontWeight: "bold",
-  boxShadow: "0 3px 10px rgba(42, 157, 143, 0.4)",
   flexGrow: 1,
 };
 
-const yellowButtonStyle = {
-  backgroundColor: "#f4c430",
-  color: "#000",
+const crimsonButtonStyle = {
+  backgroundColor: "#dc143c",
+  color: "#fff",
   border: "none",
   padding: "10px 16px",
   borderRadius: 8,
   cursor: "pointer",
   fontWeight: "bold",
-  boxShadow: "0 3px 10px rgba(244, 196, 48, 0.6)",
+  flexGrow: 1,
+};
+
+const orangeButtonStyle = {
+  backgroundColor: "#f39c12",
+  color: "#fff",
+  border: "none",
+  padding: "10px 16px",
+  borderRadius: 8,
+  cursor: "pointer",
+  fontWeight: "bold",
+  flexGrow: 1,
+};
+
+const purpleButtonStyle = {
+  backgroundColor: "#8e44ad",
+  color: "#fff",
+  border: "none",
+  padding: "10px 16px",
+  borderRadius: 8,
+  cursor: "pointer",
+  fontWeight: "bold",
   flexGrow: 1,
 };

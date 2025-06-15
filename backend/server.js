@@ -11,6 +11,7 @@ const app = express();
 
 
 
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/uploads/photos", express.static("uploads/photos"));
 
@@ -19,9 +20,10 @@ app.use("/uploads/photos", express.static("uploads/photos"));
 app.use(cors());
 app.use(express.json());
 
+app.use("/uploads/project_documents", express.static("uploads/project_documents"));
 
 // Ensure upload directories exist
-const dirs = ["uploads/photos", "uploads/resumes"];
+const dirs = ["uploads/photos", "uploads/resumes","uploads/project_documents"];
 dirs.forEach((dir) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
@@ -34,6 +36,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.fieldname === "profilePhoto") cb(null, "uploads/photos");
     else if (file.fieldname === "resume") cb(null, "uploads/resumes");
+     else if (file.fieldname === "project_document") cb(null, "uploads/project_documents");
     else cb(new Error("Invalid file field"));
   },
   filename: (req, file, cb) => {
@@ -44,6 +47,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+
+
 // MySQL connection
 const db = mysql.createConnection({
   host: process.env.DB_HOST || "localhost",
@@ -51,6 +56,9 @@ const db = mysql.createConnection({
   password: process.env.DB_PASS || "",
   database: process.env.DB_NAME || "signup",
 });
+
+
+
 
 db.connect((err) => {
   if (err) {
@@ -120,6 +128,14 @@ app.post("/forgot-password", (req, res) => {
     }
   );
 });
+
+
+
+
+
+
+
+
 
 /* =================== PROFILE ROUTES =================== */
 const profileUpload = upload.fields([
@@ -255,6 +271,91 @@ app.get('/my-profiles/:userId', async (req, res) => {
     res.status(500).json({ error: "Error fetching profiles." });
   }
 });
+
+
+app.post('/api/jobSeekerProjects', upload.single('project_document'), (req, res) => {
+  const {
+    project_title,
+    description,
+    technologies_used,
+    project_link,
+    duration,
+    role,
+    team_size,
+    email,
+    phone
+  } = req.body;
+
+  const project_document = req.file?.filename || null;
+
+  const sql = `
+    INSERT INTO job_seeker_projects 
+    (project_title, description, technologies_used, project_link, duration, role, team_size, email, phone, project_document)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const values = [
+    project_title,
+    description,
+    technologies_used,
+    project_link || '',
+    duration,
+    role,
+    team_size,
+    email,
+    phone,
+    project_document
+  ];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error inserting project:', err);
+      return res.status(500).json({ success: false, error: 'DB insert error' });
+    }
+    res.json({ success: true, message: 'Project submitted successfully' });
+  });
+});
+
+
+
+// GET: Fetch All Job Seeker Projects
+app.get('/api/jobSeekerProjects', (req, res) => {
+  const sql = 'SELECT * FROM job_seeker_projects ORDER BY created_at DESC';
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching job seeker projects:', err);
+      return res.status(500).json({ success: false, message: 'Database error' });
+    }
+
+    const formattedProjects = results.map(project => ({
+      ...project,
+      project_document_url: project.project_document
+        ? `http://localhost:5000/uploads/${project.project_document}`
+        : null,
+    }));
+
+    res.status(200).json({ success: true, projects: formattedProjects });
+  });
+});
+
+
+
+
+
+app.post('/api/notify-jobseeker', (req, res) => {
+  const { email, phone, message } = req.body;
+
+  if (!email || !message) {
+    return res.status(400).json({ success: false, error: 'Missing fields' });
+  }
+
+  // TODO: Replace with actual SMS/email service integration
+  console.log('🚀 Notification to:', { email, phone, message });
+
+  return res.status(200).json({ success: true, message: 'Notification sent (simulated)' });
+});
+
 
 
 

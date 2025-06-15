@@ -13,8 +13,9 @@ import ViewProfile from "./ViewProfile";
 import AllProfiles from "./AllProfiles"
 import MyProfiles from "./MyProfiles";
 import EmployerProfile from "./EmployerProfile";
-
-
+import PostProject from './PostProject';
+import StartHiring from './StartHiring';
+import AllProjects from "./AllProjects";
 function App() {
   return (
     <Router>
@@ -24,10 +25,13 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/post-project" element={<PostProject />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/allprojects" element={<AllProjects/>}/>
            <Route path="/allprofiles" element={<AllProfiles />} />
          <Route path="/view-profile/:id" element={<ViewProfile />} />
+         <Route path="/start-hiring" element={<StartHiring />} />
          <Route path="/my-profiles" element={<MyProfiles />} />
          <Route
           path="/employee-profile"

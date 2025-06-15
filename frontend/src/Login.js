@@ -66,7 +66,9 @@ function Login() {
   }}
 >
 
-      <div className="bg-white p-4 rounded w-25 position-relative">
+      <div className="bg-white p-4 rounded w-45 w-sm-75 w-md-50 w-lg-25 position-relative">
+
+      
 
         <button
           onClick={() => navigate('/')}

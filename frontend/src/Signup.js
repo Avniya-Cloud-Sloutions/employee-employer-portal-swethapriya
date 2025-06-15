@@ -55,7 +55,15 @@ function Signup() {
     background: 'linear-gradient(to right, #6a11cb, #2575fc)',
   }}
 >
-      <div className="bg-white p-4 rounded w-25 position-relative">
+
+
+
+
+
+
+<div className="bg-white p-4 rounded w-20 w-sm-30 w-md-50 w-lg-125 position-relative">
+
+
         {/* Cross Button */}
         <button
           onClick={() => navigate('/welcome')}
